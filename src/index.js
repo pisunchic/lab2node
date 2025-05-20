@@ -8,6 +8,7 @@ import { navigateUp, navigateTo, listDirectory } from './navigation.js';
 import { readFile, createFile, renameFile, copyFile, moveFile, removeFile } from './fileOperations.js';
 import { getEOL, getCPUs, getHomeDir, getSystemUsername, getArchitecture } from './osInfo.js';
 import { calculateHash } from './hash.js';
+import { compressFile, decompressFile } from './compression.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -142,6 +143,24 @@ const handleCommand = async (input) => {
                 console.error('Invalid input');
             } else {
                 await calculateHash(args[0]);
+                showCurrentDirectory();
+            }
+            break;
+
+        // Команды сжатия и распаковки
+        case 'compress':
+            if (args.length !== 2) {
+                console.error('Invalid input');
+            } else {
+                await compressFile(args[0], args[1]);
+                showCurrentDirectory();
+            }
+            break;
+        case 'decompress':
+            if (args.length !== 2) {
+                console.error('Invalid input');
+            } else {
+                await decompressFile(args[0], args[1]);
                 showCurrentDirectory();
             }
             break;
