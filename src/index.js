@@ -6,6 +6,7 @@ import { createInterface } from 'readline';
 import { chdir, cwd } from 'process';
 import { navigateUp, navigateTo, listDirectory } from './navigation.js';
 import { readFile, createFile, renameFile, copyFile, moveFile, removeFile } from './fileOperations.js';
+import { getEOL, getCPUs, getHomeDir, getSystemUsername, getArchitecture } from './osInfo.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -105,6 +106,35 @@ const handleCommand = async (input) => {
                 showCurrentDirectory();
             }
             break;
+
+        // Команды информации об ОС
+        case 'os':
+            if (!args[0]) {
+                console.error('Invalid input');
+            } else {
+                switch (args[0]) {
+                    case '--EOL':
+                        getEOL();
+                        break;
+                    case '--cpus':
+                        getCPUs();
+                        break;
+                    case '--homedir':
+                        getHomeDir();
+                        break;
+                    case '--username':
+                        getSystemUsername();
+                        break;
+                    case '--architecture':
+                        getArchitecture();
+                        break;
+                    default:
+                        console.error('Invalid input');
+                }
+                showCurrentDirectory();
+            }
+            break;
+
         case '.exit':
             console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
             rl.close();
