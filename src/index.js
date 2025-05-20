@@ -7,6 +7,7 @@ import { chdir, cwd } from 'process';
 import { navigateUp, navigateTo, listDirectory } from './navigation.js';
 import { readFile, createFile, renameFile, copyFile, moveFile, removeFile } from './fileOperations.js';
 import { getEOL, getCPUs, getHomeDir, getSystemUsername, getArchitecture } from './osInfo.js';
+import { calculateHash } from './hash.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -131,6 +132,16 @@ const handleCommand = async (input) => {
                     default:
                         console.error('Invalid input');
                 }
+                showCurrentDirectory();
+            }
+            break;
+
+        // Команда вычисления хэша
+        case 'hash':
+            if (!args[0]) {
+                console.error('Invalid input');
+            } else {
+                await calculateHash(args[0]);
                 showCurrentDirectory();
             }
             break;
